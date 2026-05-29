@@ -31,15 +31,36 @@ const Experience = () => {
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState(1);
   const [touchStartX, setTouchStartX] = useState(0);
   const [touchEndX, setTouchEndX] = useState(0);
 
   const handleNextCard = () => {
+    setDirection(1);
     setCurrentIndex((prevIndex) => (prevIndex + 1) % experiences.length);
   };
 
   const handlePrevCard = () => {
+    setDirection(-1);
     setCurrentIndex((prevIndex) => (prevIndex - 1 + experiences.length) % experiences.length);
+  };
+
+  const variants = {
+    enter: (direction) => ({
+      opacity: 0,
+      x: direction > 0 ? 100 : -100,
+      rotateY: direction > 0 ? 10 : -10
+    }),
+    center: {
+      opacity: 1,
+      x: 0,
+      rotateY: 0
+    },
+    exit: (direction) => ({
+      opacity: 0,
+      x: direction < 0 ? 100 : -100,
+      rotateY: direction < 0 ? 10 : -10
+    })
   };
 
   const handleTouchStart = (e) => {
@@ -57,8 +78,10 @@ const Experience = () => {
     const isRightSwipe = distance < -50;
     
     if (isLeftSwipe) {
+      // User swiped from right to left -> Next Card
       handleNextCard();
     } else if (isRightSwipe) {
+      // User swiped from left to right -> Prev Card
       handlePrevCard();
     }
     
@@ -77,14 +100,16 @@ const Experience = () => {
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={currentExp.id}
+            custom={direction}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
             className="experience-card"
             onClick={handleNextCard}
-            initial={{ opacity: 0, x: 100, rotateY: 10 }}
-            animate={{ opacity: 1, x: 0, rotateY: 0 }}
-            exit={{ opacity: 0, x: -100, rotateY: -10 }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
           >
             <img src={currentExp.image} alt={currentExp.project} className="experience-image" />
