@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 4rem 5%;
-  min-height: calc(100vh - 80px); /* Adjust based on navbar height */
+  height: 100%; /* Full height for the animated container */
 }
 
 .hero-left {
@@ -113,6 +113,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  margin: 16px;
 }
 
 @media (max-width: 992px) {
