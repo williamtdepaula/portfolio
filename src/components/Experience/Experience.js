@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import './Experience.css';
 
 const Experience = () => {
@@ -6,34 +7,106 @@ const Experience = () => {
     {
       id: 1,
       image: `${process.env.PUBLIC_URL}/experiences/claro/claro-big.jpeg`,
-      company: 'AgileTV (ClaroTV+)',
-      role: 'Principal Apple TV Developer',
-      description: 'Built a high-performance, scalable architecture using Swift, UIKit, SwiftUI, Combine, and MVVM-C. Recognized as ClaroTV+ Developer of the Year (2023).'
+      project: 'Claro TV+',
+      company: 'AgileTV',
+      role: 'Principal Apple Developer',
+      description: 'Built a high-performance, scalable architecture using Swift, UIKit, SwiftUI, Combine, and MVVM-C. Recognized as ClaroTV+ Developer of the Year.'
     },
     {
       id: 2,
       image: `${process.env.PUBLIC_URL}/experiences/puc/puc-big.jpeg`,
+      project: 'PUC-Campinas Play',
+      company: 'AgileTV',
+      role: 'Mobile Developer',
+      description: 'Main mobile developer of an online learning platform, built from the ground up using React Native, while also supporting and developing new features for the web platform with ReactJS and Next.js.'
+    },
+    {
+      id: 3,
+      image: `${process.env.PUBLIC_URL}/experiences/apptalk/apptalk-big.jpg`,
+      project: 'AppTalk',
       company: 'Wiplay',
-      role: 'Principal Mobile Developer',
-      description: 'Created and maintained mobile apps from conception to launch on the App Store and Google Play. Built internal apps with AI integration.'
+      role: 'Mobile Developer',
+      description: 'Responsible for creating and maintaining mobile apps from conception to launch on both the App Store and Google Play.'
     }
   ];
 
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [touchStartX, setTouchStartX] = useState(0);
+  const [touchEndX, setTouchEndX] = useState(0);
+
+  const handleNextCard = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % experiences.length);
+  };
+
+  const handlePrevCard = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + experiences.length) % experiences.length);
+  };
+
+  const handleTouchStart = (e) => {
+    setTouchStartX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    setTouchEndX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStartX || !touchEndX) return;
+    const distance = touchStartX - touchEndX;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+    
+    if (isLeftSwipe) {
+      handleNextCard();
+    } else if (isRightSwipe) {
+      handlePrevCard();
+    }
+    
+    // Reset values
+    setTouchStartX(0);
+    setTouchEndX(0);
+  };
+
+  const currentExp = experiences[currentIndex];
+
   return (
-    <section className="experience-section scroll-container">
-      <div className="experience-list">
-        {experiences.map(exp => (
-          <div className="experience-card" key={exp.id}>
-            <img src={exp.image} alt={exp.company} className="experience-image" />
+    <section className="experience-section">
+      <div 
+        className="deck-container"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentExp.id}
+            className="experience-card"
+            onClick={handleNextCard}
+            initial={{ opacity: 0, x: 100, rotateY: 10 }}
+            animate={{ opacity: 1, x: 0, rotateY: 0 }}
+            exit={{ opacity: 0, x: -100, rotateY: -10 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+          >
+            <img src={currentExp.image} alt={currentExp.project} className="experience-image" />
             <div className="experience-overlay">
               <div className="experience-text">
-                <h3 className="experience-company">{exp.company}</h3>
-                <h4 className="experience-role">{exp.role}</h4>
-                <p className="experience-desc">{exp.description}</p>
+                <h3 className="experience-project">{currentExp.project}</h3>
+                <h4 className="experience-company">@{currentExp.company}</h4>
+                <h4 className="experience-role">{currentExp.role}</h4>
+                <p className="experience-desc">{currentExp.description}</p>
+                <div className="click-hint">Click to see next &rarr;</div>
               </div>
             </div>
-          </div>
-        ))}
+          </motion.div>
+        </AnimatePresence>
+        <div className="deck-indicators">
+          {experiences.map((_, idx) => (
+            <span 
+              key={idx} 
+              className={`indicator ${idx === currentIndex ? 'active' : ''}`}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );

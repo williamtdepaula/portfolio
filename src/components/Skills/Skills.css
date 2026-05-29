@@ -1,0 +1,109 @@
+.skills-section {
+  min-height: 100%;
+  height: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4rem 5%;
+}
+
+.skills-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.skills-scroll-container {
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 2rem;
+  /* Custom scrollbar for horizontal scrolling */
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-blue) #1a1a1a;
+}
+
+.skills-scroll-container::-webkit-scrollbar {
+  height: 8px;
+}
+.skills-scroll-container::-webkit-scrollbar-track {
+  background: #1a1a1a;
+  border-radius: 4px;
+}
+.skills-scroll-container::-webkit-scrollbar-thumb {
+  background: var(--text-muted);
+  border-radius: 4px;
+}
+.skills-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-blue);
+}
+
+.skills-track {
+  display: flex;
+  gap: 2rem;
+  width: max-content;
+  padding: 0 1rem;
+  margin: 0 auto;
+}
+
+.skill-category-card {
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 16px;
+  padding: 2rem;
+  width: 350px; /* Fixed width for horizontal alignment */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+}
+
+.category-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent-blue);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  border-bottom: 1px solid #333;
+  padding-bottom: 1rem;
+}
+
+.skills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.skill-pill {
+  border: 1px solid var(--text-muted);
+  border-radius: 20px;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-color);
+  text-align: center;
+  transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.skill-pill:hover {
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
+  background-color: rgba(0, 123, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .skill-category-card {
+    width: 280px;
+    padding: 1.5rem;
+  }
+  
+  .category-title {
+    font-size: 1.3rem;
+  }
+  
+  .skill-pill {
+    font-size: 0.9rem;
+    padding: 0.4rem 1rem;
+  }
+}

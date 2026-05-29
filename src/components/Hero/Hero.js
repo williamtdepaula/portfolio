@@ -3,7 +3,11 @@ import { motion } from 'framer-motion';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import './Hero.css';
 
-const Hero = () => {
+const Hero = ({ onNavigate }) => {
+  const handleContact = () => {
+    onNavigate('contact');
+  };
+
   return (
     <section className="hero-section">
       <motion.div 
@@ -28,7 +32,7 @@ const Hero = () => {
           </a>
         </div>
         <div className="hero-actions">
-          <button className="btn btn-primary">Hire me</button>
+          <button className="btn btn-primary" onClick={handleContact}>Hire me</button>
           <button className="btn btn-secondary">Download CV</button>
         </div>
       </motion.div>

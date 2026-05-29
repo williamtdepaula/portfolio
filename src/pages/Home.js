@@ -4,50 +4,76 @@ import Navbar from '../components/Navbar/Navbar';
 import Hero from '../components/Hero/Hero';
 import About from '../components/About/About';
 import Experience from '../components/Experience/Experience';
+import Skills from '../components/Skills/Skills';
+import Contact from '../components/Contact/Contact';
 import './Home.css';
 
-const sections = ['home', 'about', 'experience', 'contact'];
+const sections = ['home', 'about', 'experience', 'skills', 'contact'];
 
 const Home = () => {
   const [activeSection, setActiveSection] = useState('home');
   const isScrolling = useRef(false);
+  const touchStartY = useRef(0);
+  const touchEndY = useRef(0);
 
   useEffect(() => {
-    const handleWheel = (e) => {
+    const handleNavigation = (deltaY, target) => {
       // Prevent scrolling if an animation is currently happening
       if (isScrolling.current) return;
       
-      // Threshold to ignore tiny trackpad movements
-      if (Math.abs(e.deltaY) < 30) return;
+      // Threshold to ignore tiny movements
+      if (Math.abs(deltaY) < 30) return;
 
       // Handle internal scrolling
-      const scrollContainer = e.target.closest('.scroll-container');
+      // Every section-wrapper can scroll if content overflows, plus explicitly marked scroll-containers
+      const scrollContainer = target.closest('.scroll-container') || target.closest('.section-wrapper');
       if (scrollContainer) {
-        const atTop = scrollContainer.scrollTop === 0;
-        const atBottom = Math.abs(scrollContainer.scrollHeight - scrollContainer.scrollTop - scrollContainer.clientHeight) < 1;
+        const atTop = scrollContainer.scrollTop <= 2;
+        const atBottom = Math.abs(scrollContainer.scrollHeight - scrollContainer.scrollTop - scrollContainer.clientHeight) <= 2;
         
-        // If scrolling down and not at bottom, let it scroll internally
-        if (e.deltaY > 0 && !atBottom) return;
-        // If scrolling up and not at top, let it scroll internally
-        if (e.deltaY < 0 && !atTop) return;
+        // If scrolling down (deltaY > 0) and not at bottom, let it scroll internally
+        if (deltaY > 0 && !atBottom) return;
+        // If scrolling up (deltaY < 0) and not at top, let it scroll internally
+        if (deltaY < 0 && !atTop) return;
       }
 
       const currentIndex = sections.indexOf(activeSection);
-      if (e.deltaY > 0 && currentIndex < sections.length - 1) {
-        // Scroll Down
+      if (deltaY > 0 && currentIndex < sections.length - 1) {
+        // Scroll Down -> Next Section
         isScrolling.current = true;
         setActiveSection(sections[currentIndex + 1]);
         setTimeout(() => (isScrolling.current = false), 1000);
-      } else if (e.deltaY < 0 && currentIndex > 0) {
-        // Scroll Up
+      } else if (deltaY < 0 && currentIndex > 0) {
+        // Scroll Up -> Prev Section
         isScrolling.current = true;
         setActiveSection(sections[currentIndex - 1]);
         setTimeout(() => (isScrolling.current = false), 1000);
       }
     };
 
+    const handleWheel = (e) => {
+      handleNavigation(e.deltaY, e.target);
+    };
+
+    const handleTouchStart = (e) => {
+      touchStartY.current = e.changedTouches[0].screenY;
+    };
+
+    const handleTouchEnd = (e) => {
+      touchEndY.current = e.changedTouches[0].screenY;
+      const deltaY = touchStartY.current - touchEndY.current;
+      handleNavigation(deltaY, e.target);
+    };
+
     window.addEventListener('wheel', handleWheel, { passive: false });
-    return () => window.removeEventListener('wheel', handleWheel);
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true });
+    
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchend', handleTouchEnd);
+    };
   }, [activeSection]);
 
   const pageVariants = {
@@ -77,7 +103,7 @@ const Home = () => {
               transition={pageTransition}
               className="section-wrapper"
             >
-              <Hero />
+              <Hero onNavigate={setActiveSection} />
             </motion.div>
           )}
           {activeSection === 'about' && (
@@ -106,11 +132,30 @@ const Home = () => {
               <Experience />
             </motion.div>
           )}
+          {activeSection === 'skills' && (
+            <motion.div
+              key="skills"
+              initial="initial"
+              animate="in"
+              exit="out"
+              variants={pageVariants}
+              transition={pageTransition}
+              className="section-wrapper"
+            >
+              <Skills />
+            </motion.div>
+          )}
           {activeSection === 'contact' && (
-            <motion.div key="contact" initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition} className="section-wrapper">
-              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-                <h1>Contact Section Coming Soon</h1>
-              </div>
+            <motion.div
+              key="contact"
+              initial="initial"
+              animate="in"
+              exit="out"
+              variants={pageVariants}
+              transition={pageTransition}
+              className="section-wrapper"
+            >
+              <Contact />
             </motion.div>
           )}
         </AnimatePresence>

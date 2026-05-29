@@ -3,7 +3,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 4rem 5%;
-  height: 100%; /* Full height for the animated container */
+  min-height: 100%; /* Allows expansion on mobile */
+  height: auto;
 }
 
 .hero-left {
