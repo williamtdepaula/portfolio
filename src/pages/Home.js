@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { FiArrowDown, FiArrowUp } from 'react-icons/fi';
 import Navbar from '../components/Navbar/Navbar';
 import Hero from '../components/Hero/Hero';
 import About from '../components/About/About';
@@ -88,6 +89,20 @@ const Home = () => {
     duration: 0.5
   };
 
+  const currentIndex = sections.indexOf(activeSection);
+
+  const handleNavUp = () => {
+    if (currentIndex > 0) {
+      setActiveSection(sections[currentIndex - 1]);
+    }
+  };
+
+  const handleNavDown = () => {
+    if (currentIndex < sections.length - 1) {
+      setActiveSection(sections[currentIndex + 1]);
+    }
+  };
+
   return (
     <div className="home-page">
       <Navbar activeSection={activeSection} onNavigate={setActiveSection} />
@@ -160,6 +175,24 @@ const Home = () => {
           )}
         </AnimatePresence>
       </main>
+      <div className="floating-nav-container">
+        <button 
+          className={`floating-nav-btn ${currentIndex === 0 ? 'hidden' : ''}`}
+          onClick={handleNavUp}
+          aria-label="Previous section"
+          disabled={currentIndex === 0}
+        >
+          <FiArrowUp size={24} />
+        </button>
+        <button 
+          className={`floating-nav-btn ${currentIndex === sections.length - 1 ? 'hidden' : ''}`}
+          onClick={handleNavDown}
+          aria-label="Next section"
+          disabled={currentIndex === sections.length - 1}
+        >
+          <FiArrowDown size={24} />
+        </button>
+      </div>
     </div>
   );
 };

@@ -42,8 +42,15 @@
   font-size: 1.1rem;
   line-height: 1.6;
   color: var(--text-muted);
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   max-width: 90%;
+}
+
+.hero-availability {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--accent-blue);
+  margin-bottom: 2rem;
 }
 
 .hero-socials {

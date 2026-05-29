@@ -23,6 +23,9 @@ const Hero = ({ onNavigate }) => {
         <p className="hero-description">
           Principal Mobile Developer specializing in Apple platforms (iOS & tvOS) and cross-platform solutions. Passionate about building high-performance architectures and engaging user experiences for millions of users.
         </p>
+        <p className="hero-availability">
+          Open to Relocation | Remote
+        </p>
         <div className="hero-socials">
           <a href="https://github.com/williamtdepaula" target="_blank" rel="noreferrer" className="social-icon">
             <FaGithub size={24} />
@@ -33,7 +36,14 @@ const Hero = ({ onNavigate }) => {
         </div>
         <div className="hero-actions">
           <button className="btn btn-primary" onClick={handleContact}>Hire me</button>
-          <button className="btn btn-secondary">Download CV</button>
+          <a 
+            href={`${process.env.PUBLIC_URL}/cv/Resume William Tristão.pdf`} 
+            download="Resume William Tristão.pdf"
+            className="btn btn-secondary"
+            style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
+          >
+            Download CV
+          </a>
         </div>
       </motion.div>
       <motion.div 

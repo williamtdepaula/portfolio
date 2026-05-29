@@ -17,7 +17,7 @@ const Navbar = ({ activeSection, onNavigate }) => {
 
   return (
     <nav className="navbar">
-      <div className="navbar-logo">
+      <div className="navbar-logo" onClick={() => handleNavClick('home')}>
         <span className="logo-name">William Tristão</span>
       </div>
       
