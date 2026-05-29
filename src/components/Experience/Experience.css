@@ -1,0 +1,120 @@
+.experience-section {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto; /* Allow internal scrolling */
+  padding: 4rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.experience-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  width: 80%; /* 80% of screen width */
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.experience-card {
+  position: relative;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  aspect-ratio: 16 / 9; /* Ensure uniform landscape cards */
+}
+
+.experience-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.experience-card:hover .experience-image {
+  transform: scale(1.05); /* Slight zoom on hover */
+}
+
+.experience-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.experience-card:hover .experience-overlay {
+  opacity: 1; /* Fade in overlay */
+}
+
+.experience-text {
+  text-align: center;
+  padding: 2rem;
+  transform: translateY(20px);
+  transition: transform 0.4s ease;
+}
+
+.experience-card:hover .experience-text {
+  transform: translateY(0); /* Slide up effect */
+}
+
+.experience-company {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--accent-blue);
+  margin-bottom: 0.5rem;
+}
+
+.experience-role {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.experience-desc {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Custom scrollbar for the experience section */
+.experience-section::-webkit-scrollbar {
+  width: 8px;
+}
+.experience-section::-webkit-scrollbar-track {
+  background: var(--bg-color);
+}
+.experience-section::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+.experience-section::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-blue);
+}
+
+@media (max-width: 768px) {
+  .experience-list {
+    width: 95%; /* More width on small screens */
+  }
+  .experience-company {
+    font-size: 1.5rem;
+  }
+  .experience-role {
+    font-size: 1.2rem;
+  }
+  .experience-desc {
+    font-size: 0.9rem;
+  }
+}

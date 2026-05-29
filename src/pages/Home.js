@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from '../components/Navbar/Navbar';
 import Hero from '../components/Hero/Hero';
 import About from '../components/About/About';
+import Experience from '../components/Experience/Experience';
 import './Home.css';
 
 const sections = ['home', 'about', 'experience', 'contact'];
@@ -18,6 +19,18 @@ const Home = () => {
       
       // Threshold to ignore tiny trackpad movements
       if (Math.abs(e.deltaY) < 30) return;
+
+      // Handle internal scrolling
+      const scrollContainer = e.target.closest('.scroll-container');
+      if (scrollContainer) {
+        const atTop = scrollContainer.scrollTop === 0;
+        const atBottom = Math.abs(scrollContainer.scrollHeight - scrollContainer.scrollTop - scrollContainer.clientHeight) < 1;
+        
+        // If scrolling down and not at bottom, let it scroll internally
+        if (e.deltaY > 0 && !atBottom) return;
+        // If scrolling up and not at top, let it scroll internally
+        if (e.deltaY < 0 && !atTop) return;
+      }
 
       const currentIndex = sections.indexOf(activeSection);
       if (e.deltaY > 0 && currentIndex < sections.length - 1) {
@@ -81,10 +94,16 @@ const Home = () => {
             </motion.div>
           )}
           {activeSection === 'experience' && (
-            <motion.div key="experience" initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition} className="section-wrapper">
-              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-                <h1>Experience Section Coming Soon</h1>
-              </div>
+            <motion.div
+              key="experience"
+              initial="initial"
+              animate="in"
+              exit="out"
+              variants={pageVariants}
+              transition={pageTransition}
+              className="section-wrapper"
+            >
+              <Experience />
             </motion.div>
           )}
           {activeSection === 'contact' && (
