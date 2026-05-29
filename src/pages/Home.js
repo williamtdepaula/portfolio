@@ -155,7 +155,7 @@ const Home = () => {
               exit="out"
               variants={pageVariants}
               transition={pageTransition}
-              className="section-wrapper"
+              className="section-wrapper skills-wrapper"
             >
               <Skills />
             </motion.div>
