@@ -14,7 +14,7 @@ const Hero = ({ onNavigate }) => {
         className="hero-left"
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 0.5 }}
       >
         <p className="hero-greeting">Hi, There!</p>
         <h1 className="hero-headline">
@@ -50,7 +50,7 @@ const Hero = ({ onNavigate }) => {
         className="hero-right"
         initial={{ opacity: 0, x: 50 }}
         animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 0.5 }}
       >
         <div className="profile-image-container">
           <img src={`${process.env.PUBLIC_URL}/profile.png`} alt="William Tristão de Paula" className="profile-image" />

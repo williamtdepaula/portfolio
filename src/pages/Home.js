@@ -15,16 +15,21 @@ const Home = () => {
   const [activeSection, setActiveSection] = useState('home');
   const isScrolling = useRef(false);
   const touchStartY = useRef(0);
+  const touchStartX = useRef(0);
   const wasAtTopAtStart = useRef(false);
   const wasAtBottomAtStart = useRef(false);
 
   useEffect(() => {
-    const handleNavigation = (deltaY, target, isTouch = false) => {
+    const handleNavigation = (deltaY, target, isTouch = false, deltaX = 0) => {
       // Prevent scrolling if an animation is currently happening
       if (isScrolling.current) return;
       
       // Threshold to ignore tiny movements
       if (Math.abs(deltaY) < 30) return;
+
+      // For touch, prevent vertical section change if horizontal movement is significant
+      // (helps with carousels and diagonal swipes)
+      if (isTouch && Math.abs(deltaX) > Math.abs(deltaY) * 0.8) return;
 
       // Handle internal scrolling
       const scrollContainer = target.closest('.scroll-container') || target.closest('.section-wrapper');
@@ -49,12 +54,12 @@ const Home = () => {
         // Scroll Down -> Next Section
         isScrolling.current = true;
         setActiveSection(sections[currentIndex + 1]);
-        setTimeout(() => (isScrolling.current = false), 1000);
+        setTimeout(() => (isScrolling.current = false), 600);
       } else if (deltaY < 0 && currentIndex > 0) {
         // Scroll Up -> Prev Section
         isScrolling.current = true;
         setActiveSection(sections[currentIndex - 1]);
-        setTimeout(() => (isScrolling.current = false), 1000);
+        setTimeout(() => (isScrolling.current = false), 600);
       }
     };
 
@@ -64,6 +69,7 @@ const Home = () => {
 
     const handleTouchStart = (e) => {
       touchStartY.current = e.changedTouches[0].screenY;
+      touchStartX.current = e.changedTouches[0].screenX;
       
       const target = e.target;
       const scrollContainer = target.closest('.scroll-container') || target.closest('.section-wrapper');
@@ -78,8 +84,10 @@ const Home = () => {
 
     const handleTouchEnd = (e) => {
       const touchEndY = e.changedTouches[0].screenY;
+      const touchEndX = e.changedTouches[0].screenX;
       const deltaY = touchStartY.current - touchEndY;
-      handleNavigation(deltaY, e.target, true);
+      const deltaX = touchStartX.current - touchEndX;
+      handleNavigation(deltaY, e.target, true, deltaX);
     };
 
     window.addEventListener('wheel', handleWheel, { passive: false });
@@ -94,29 +102,33 @@ const Home = () => {
   }, [activeSection]);
 
   const pageVariants = {
-    initial: { opacity: 0, y: 100, scale: 0.95, filter: 'blur(10px)' },
+    initial: { opacity: 0, y: 50, scale: 0.98, filter: 'blur(5px)' },
     in: { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' },
-    out: { opacity: 0, y: -100, scale: 1.05, filter: 'blur(10px)' }
+    out: { opacity: 0, y: -50, scale: 1.02, filter: 'blur(5px)' }
   };
 
   const pageTransition = {
     type: 'spring',
-    stiffness: 70,
-    damping: 15,
-    mass: 1
+    stiffness: 120,
+    damping: 20,
+    mass: 0.8
   };
 
   const currentIndex = sections.indexOf(activeSection);
 
   const handleNavUp = () => {
-    if (currentIndex > 0) {
+    if (currentIndex > 0 && !isScrolling.current) {
+      isScrolling.current = true;
       setActiveSection(sections[currentIndex - 1]);
+      setTimeout(() => (isScrolling.current = false), 600);
     }
   };
 
   const handleNavDown = () => {
-    if (currentIndex < sections.length - 1) {
+    if (currentIndex < sections.length - 1 && !isScrolling.current) {
+      isScrolling.current = true;
       setActiveSection(sections[currentIndex + 1]);
+      setTimeout(() => (isScrolling.current = false), 600);
     }
   };
 
@@ -124,7 +136,7 @@ const Home = () => {
     <div className="home-page">
       <Navbar activeSection={activeSection} onNavigate={setActiveSection} />
       <main className="content-area">
-        <AnimatePresence mode="wait">
+        <AnimatePresence>
           {activeSection === 'home' && (
             <motion.div
               key="home"

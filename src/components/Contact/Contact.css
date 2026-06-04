@@ -145,12 +145,17 @@
 
 @media (max-width: 768px) {
   .contact-section {
-    padding: 2rem 5%;
-    display: block; /* Allows natural scrolling instead of flex-center centering which can cut off top/bottom */
+    padding: 2rem 5% 6rem 5%; /* Extra bottom padding for floating buttons */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Start from top to allow scrolling */
+    align-items: center;
+    min-height: 100%;
   }
 
   .contact-container {
     padding: 1.5rem;
     margin: 0 auto;
+    width: 100%;
   }
 }

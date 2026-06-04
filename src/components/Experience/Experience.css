@@ -135,6 +135,12 @@
   background-color: var(--text-muted);
   opacity: 0.5;
   transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.indicator:hover {
+  opacity: 0.8;
+  background-color: var(--accent-blue);
 }
 
 .indicator.active {
@@ -144,6 +150,13 @@
 }
 
 @media (max-width: 768px) {
+  .experience-section {
+    padding: 2rem 5%;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100%;
+  }
+
   .deck-container {
     width: 95%; 
   }

@@ -40,7 +40,7 @@ const Skills = () => {
               className="skill-category-card"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.1, duration: 0.5 }}
+              transition={{ delay: idx * 0.05, duration: 0.4 }}
             >
               <h3 className="category-title">{category.title}</h3>
               <div className="skills-grid">

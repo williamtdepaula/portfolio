@@ -45,6 +45,12 @@ const Experience = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + experiences.length) % experiences.length);
   };
 
+  const goToSlide = (index) => {
+    if (index === currentIndex) return;
+    setDirection(index > currentIndex ? 1 : -1);
+    setCurrentIndex(index);
+  };
+
   const variants = {
     enter: (direction) => ({
       opacity: 0,
@@ -129,6 +135,8 @@ const Experience = () => {
             <span 
               key={idx} 
               className={`indicator ${idx === currentIndex ? 'active' : ''}`}
+              onClick={() => goToSlide(idx)}
+              aria-label={`Go to slide ${idx + 1}`}
             />
           ))}
         </div>

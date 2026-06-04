@@ -86,13 +86,19 @@
   .skills-wrapper {
     overflow-y: hidden !important; /* Disable vertical scroll as requested */
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center; /* Center vertically in the viewport */
+    min-height: 100%;
   }
 
   .skills-section {
-    padding: 1rem 0;
+    padding: 2rem 0;
+    display: flex;
+    flex-direction: column;
     justify-content: center; /* Center content vertically if possible */
     width: 100%;
+    min-height: 100%;
   }
 
   .skills-header {
