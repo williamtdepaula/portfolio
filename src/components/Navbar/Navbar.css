@@ -3,7 +3,9 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem 5%;
-  background-color: var(--bg-color);
+  background-color: var(--bg-color-glass);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -48,12 +50,14 @@
   border-radius: 4px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .navbar-action .contact-btn:hover {
   background-color: var(--accent-blue);
   color: #fff;
+  box-shadow: 0 0 15px rgba(0, 123, 255, 0.6);
+  transform: translateY(-2px) scale(1.05);
 }
 
 .mobile-toggle {
@@ -72,7 +76,9 @@
     top: 100%;
     left: 0;
     width: 100%;
-    background-color: #1a1a1a;
+    background-color: var(--bg-color-glass);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
     flex-direction: column;
     align-items: center;
     padding: 2rem 0;

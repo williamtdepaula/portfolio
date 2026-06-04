@@ -10,11 +10,12 @@
 .contact-container {
   width: 100%;
   max-width: 600px;
-  background-color: #1a1a1a;
+  background-color: var(--bg-color-glass);
+  backdrop-filter: blur(10px);
   padding: 2rem;
   border-radius: 16px;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-  border: 1px solid #333;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Hide scrollbars for the whole section if focused */

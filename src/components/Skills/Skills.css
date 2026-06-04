@@ -35,8 +35,9 @@
 }
 
 .skill-category-card {
-  background-color: #1a1a1a;
-  border: 1px solid #333;
+  background-color: var(--bg-color-glass);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
   padding: 2rem;
   width: 350px; /* Fixed width for horizontal alignment */

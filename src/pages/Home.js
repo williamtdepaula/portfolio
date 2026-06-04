@@ -94,15 +94,16 @@ const Home = () => {
   }, [activeSection]);
 
   const pageVariants = {
-    initial: { opacity: 0, y: 50 },
-    in: { opacity: 1, y: 0 },
-    out: { opacity: 0, y: -50 }
+    initial: { opacity: 0, y: 100, scale: 0.95, filter: 'blur(10px)' },
+    in: { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' },
+    out: { opacity: 0, y: -100, scale: 1.05, filter: 'blur(10px)' }
   };
 
   const pageTransition = {
-    type: 'tween',
-    ease: 'easeInOut',
-    duration: 0.5
+    type: 'spring',
+    stiffness: 70,
+    damping: 15,
+    mass: 1
   };
 
   const currentIndex = sections.indexOf(activeSection);

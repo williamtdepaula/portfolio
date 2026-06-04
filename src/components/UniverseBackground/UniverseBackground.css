@@ -1,0 +1,21 @@
+.universe-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -10;
+  pointer-events: none;
+  background-color: #000003;
+}
+
+.universe-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Dark gradient overlay to increase text contrast */
+  background: radial-gradient(circle at center, rgba(0, 0, 5, 0.4) 0%, rgba(0, 0, 10, 0.8) 70%, rgba(0, 0, 10, 0.95) 100%);
+  pointer-events: none;
+}
