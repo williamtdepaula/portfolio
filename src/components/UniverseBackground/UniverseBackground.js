@@ -102,12 +102,15 @@ const WhiteWhirlwind = () => {
         const twist = r * 0.08;
         const angle = armAngle + twist + (Math.random() - 0.5) * 0.8;
         
-        const x = Math.cos(angle) * r;
-        const z = Math.sin(angle) * r;
+        // Thicker and spherical in the middle, thinning out at the edges
+        const scatter = Math.exp(-r * 0.05) * 20;
+        const randomX = Math.pow(Math.random(), 2) * (Math.random() < 0.5 ? 1 : -1) * scatter;
+        const randomY = Math.pow(Math.random(), 2) * (Math.random() < 0.5 ? 1 : -1) * scatter;
+        const randomZ = Math.pow(Math.random(), 2) * (Math.random() < 0.5 ? 1 : -1) * scatter;
         
-        // Thicker in the middle, thinning out at the edges
-        const ySpread = Math.exp(-r * 0.05) * 25;
-        const y = (Math.random() - 0.5) * ySpread;
+        const x = Math.cos(angle) * r + randomX;
+        const y = randomY;
+        const z = Math.sin(angle) * r + randomZ;
         
         pos[i*3] = x;
         pos[i*3+1] = y;
