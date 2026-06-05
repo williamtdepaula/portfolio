@@ -1,16 +1,26 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import { analytics, logEvent } from '../../firebase';
 import './Hero.css';
 
 const Hero = ({ onNavigate }) => {
   const handleContact = () => {
+    if (analytics) {
+      logEvent(analytics, 'hire_me_click');
+    }
     onNavigate('contact');
+  };
+
+  const handleDownloadCV = () => {
+    if (analytics) {
+      logEvent(analytics, 'download_cv_click');
+    }
   };
 
   return (
     <section className="hero-section">
-      <motion.div 
+      <motion.div
         className="hero-left"
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}
@@ -36,17 +46,18 @@ const Hero = ({ onNavigate }) => {
         </div>
         <div className="hero-actions">
           <button className="btn btn-primary" onClick={handleContact}>Hire me</button>
-          <a 
-            href={`${process.env.PUBLIC_URL}/cv/Resume William Tristão.pdf`} 
+          <a
+            href={`${process.env.PUBLIC_URL}/cv/Resume William Tristão.pdf`}
             download="Resume William Tristão.pdf"
             className="btn btn-secondary"
             style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
+            onClick={handleDownloadCV}
           >
             Download CV
           </a>
         </div>
       </motion.div>
-      <motion.div 
+      <motion.div
         className="hero-right"
         initial={{ opacity: 0, x: 50 }}
         animate={{ opacity: 1, x: 0 }}

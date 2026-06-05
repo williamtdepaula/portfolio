@@ -7,6 +7,7 @@ import About from '../components/About/About';
 import Experience from '../components/Experience/Experience';
 import Skills from '../components/Skills/Skills';
 import Contact from '../components/Contact/Contact';
+import { analytics, logEvent } from '../firebase';
 import './Home.css';
 
 const sections = ['home', 'about', 'experience', 'skills', 'contact'];
@@ -18,6 +19,15 @@ const Home = () => {
   const touchStartX = useRef(0);
   const wasAtTopAtStart = useRef(false);
   const wasAtBottomAtStart = useRef(false);
+
+  useEffect(() => {
+    if (analytics) {
+      logEvent(analytics, 'page_view', {
+        page_path: `/${activeSection}`,
+        page_title: activeSection.charAt(0).toUpperCase() + activeSection.slice(1)
+      });
+    }
+  }, [activeSection]);
 
   useEffect(() => {
     const handleNavigation = (deltaY, target, isTouch = false, deltaX = 0) => {

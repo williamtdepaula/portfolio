@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { FiMenu, FiX } from 'react-icons/fi';
+import { analytics, logEvent } from '../../firebase';
 import './Navbar.css';
 
 const Navbar = ({ activeSection, onNavigate }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleContact = () => {
+    if (analytics) {
+      logEvent(analytics, 'contact_me_click');
+    }
     onNavigate('contact');
     setIsMobileMenuOpen(false);
   };
